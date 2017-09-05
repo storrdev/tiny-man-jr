@@ -1,34 +1,49 @@
 /* globals __DEV__ */
 import Phaser from 'phaser'
-import Mushroom from '../sprites/Mushroom'
+import Player from '../sprites/Player'
 
 export default class extends Phaser.State {
   init () {}
   preload () {}
 
   create () {
-    const bannerText = 'Phaser + ES6 + Webpack'
-    let banner = this.add.text(this.world.centerX, this.game.height - 80, bannerText)
-    banner.font = 'Bangers'
-    banner.padding.set(10, 16)
-    banner.fontSize = 40
-    banner.fill = '#77BFA3'
-    banner.smoothed = false
-    banner.anchor.setTo(0.5)
+    this.physics.startSystem(Phaser.Physics.ARCADE);
 
-    this.mushroom = new Mushroom({
+    this.physics.arcade.gravity.y = 300;
+
+    this.bg = this.game.add.tileSprite(0, 0, 1400, 1400, 'background');
+
+    this.map = this.game.add.tilemap('test');
+
+    this.map.addTilesetImage('base', 'tiles');
+
+    this.layer = this.map.createLayer('Tile Layer 1');
+
+    this.layer.resizeWorld();
+
+    this.map.setCollisionByExclusion([], true, this.layer);
+
+    this.player = new Player({
       game: this.game,
       x: this.world.centerX,
-      y: this.world.centerY,
-      asset: 'mushroom'
-    })
+      y: this.world.centerY - 300,
+      asset: 'player',
+      collision: this.layer
+    });
 
-    this.game.add.existing(this.mushroom)
+    this.physics.enable(this.player, Phaser.Physics.ARCADE);
+    this.player.body.collideWorldBounds = true;
+    this.player.body.gravity.y = 1000;
+    this.player.body.maxVelocity.y = 500;
+    this.player.body.setSize(75, 100, 0, 15);
+
+    this.game.add.existing(this.player)
   }
 
   render () {
     if (__DEV__) {
-      this.game.debug.spriteInfo(this.mushroom, 32, 32)
+      this.game.debug.spriteInfo(this.player, 32, 32)
+      this.game.debug.body(this.player);
     }
   }
 }

@@ -13,7 +13,20 @@ export default class extends Phaser.State {
     //
     // load your assets
     //
-    this.load.image('mushroom', 'assets/images/mushroom2.png')
+
+    this.load.image('background', 'assets/images/tiles/Base\ pack/bg_big.png');
+
+    this.load.tilemap('test', 'assets/maps/test.json', null, Phaser.Tilemap.TILED_JSON);
+
+    this.load.image('tiles', 'assets/maps/tileset.png');
+
+    this.load.atlasJSONHash('player', 'assets/images/PNG/Player/player_spritesheet.png', 'assets/images/PNG/Player/player_spritesheet.json');
+
+    // Scales that ass
+    this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+    this.scale.setResizeCallback(() => {
+      this.scale.setMaximum();
+    });
   }
 
   create () {
