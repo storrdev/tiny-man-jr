@@ -21,6 +21,7 @@ export default class extends Phaser.State {
     this.load.image('tiles', 'assets/maps/tileset.png');
 
     this.load.atlasJSONHash('player', 'assets/images/PNG/Player/player_spritesheet.png', 'assets/images/PNG/Player/player_spritesheet.json');
+    this.load.atlasJSONHash('ui', 'assets/ui/ui_spritesheet.png', 'assets/ui/ui_spritesheet.json');
 
     // Scales that ass
     this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
@@ -30,6 +31,6 @@ export default class extends Phaser.State {
   }
 
   create () {
-    this.state.start('Game')
+    this.state.start('Controllers')
   }
 }
